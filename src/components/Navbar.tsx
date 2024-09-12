@@ -4,8 +4,8 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="flex flex-wrap justify-between items-center mx-auto p-4">
+      <nav className="bg-[#424242]">
+        <div className="h-[84px] flex flex-wrap justify-between items-center mx-auto p-4">
           {/* <a
             href="https://flowbite.com"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -19,30 +19,34 @@ export default function Navbar() {
               DLU Underground
             </span>
           </a> */}
-          <Link href="/">DLU Underground</Link>
+
+          <Link href="/" className="text-white">
+            DLU Underground
+          </Link>
 
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            <a
-              href="tel:5541251234"
-              className="text-sm  text-gray-500 dark:text-white hover:underline"
-            >
-              (555) 412-1234
-            </a>
-            <a
-              href="#"
-              className="text-sm  text-blue-600 dark:text-blue-500 hover:underline"
-            >
-              Login
-            </a>
+            <p className="text-white">Deliver to location</p>
+            <p className="text-white">Search bar</p>
+            <p className="text-white">Reorder my item</p>
+            <p className="text-white">Sign in account</p>
+            <p className="text-white">Cart</p>
           </div>
         </div>
       </nav>
 
       {/* Navbar submenu */}
-      <nav className="bg-gray-50 dark:bg-gray-700">
-        <div className="px-4 py-3 mx-auto">
+      <nav className="bg-[#CCCCCC]">
+        <div className="h-[48px] px-4 py-3 mx-auto">
           <div className="flex items-center">
             <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
+              <li>
+                <button
+                  className="bg-gray-800 text-white font-semibold rounded-full px-6 py-2 text-sm hover:bg-gray-900 
+                focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ease-in-out"
+                >
+                  Categories
+                </button>
+              </li>
               <li>
                 <Link
                   href="/"
