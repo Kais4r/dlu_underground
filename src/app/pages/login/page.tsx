@@ -1,23 +1,18 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+//import { useRouter } from "next/navigation";
 
 interface LoginFormValues {
-  username: string;
+  name: string;
   password: string;
 }
 
 export default function Page() {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-
-  // function handleSubmit(event: { preventDefault: () => void }) {
-  //   event.preventDefault();
-
-  //   console.log("pressed log in button");
-  // }
-
+  //const router = useRouter();
+  //router.push("/");
   const [values, setValues] = useState<LoginFormValues>({
-    username: "",
+    name: "",
     password: "",
   });
 
@@ -34,7 +29,7 @@ export default function Page() {
     // Here you would typically validate the form and then make an API call
     // For now, we're just checking if the values are empty
 
-    if (!values.username || !values.password) {
+    if (!values.name || !values.password) {
       setError("Please fill out all fields");
     } else {
       // Successful login
@@ -45,56 +40,6 @@ export default function Page() {
 
   return (
     <>
-      {/* <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form> */}
-
-      {/* <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={values.username}
-          onChange={handleChange}
-        />
-
-        <br />
-
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-        />
-
-        <br />
-
-        {error && <p>{error}</p>}
-
-        <button type="submit">Login</button>
-      </form> */}
-
       <form
         onSubmit={handleSubmit}
         className="space-y-6 max-w-sm mx-auto bg-white p-6 shadow-md rounded-md"
@@ -108,9 +53,9 @@ export default function Page() {
           </label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={values.username}
+            id="name"
+            name="name"
+            value={values.name}
             onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -141,6 +86,16 @@ export default function Page() {
         >
           Login
         </button>
+
+        {/* Sign Up Message and Button */}
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-600">
+            No account?{" "}
+            <Link href="/pages/signup">
+              <p className="text-blue-500 hover:underline">Sign up here</p>
+            </Link>
+          </p>
+        </div>
       </form>
     </>
   );
