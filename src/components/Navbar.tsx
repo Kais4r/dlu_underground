@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -28,7 +29,9 @@ export default function Navbar() {
             <p className="text-white">Deliver to location</p>
             <p className="text-white">Search bar</p>
             <p className="text-white">Reorder my item</p>
-            <p className="text-white">Sign in account</p>
+            <Link href="/pages/login" className="text-white">
+              Login
+            </Link>
             <p className="text-white">Cart</p>
           </div>
         </div>
