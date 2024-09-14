@@ -2,43 +2,47 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../app/store/store";
+import {
+  setUser,
+  clearUser,
+  updateUsername,
+  updateEmail,
+} from "../app/store/features/userSlice";
+
 import LogInButton from "./LogInButton";
 import LogOutButton from "./LogOutButton";
 
 export default function Navbar() {
-  //const [login, setLoginState] = useState("false");
-  // useEffect(() => {
-  //   // Check if sessionStorage is available (only on the client-side)
-  //   if (typeof window !== "undefined") {
-  //     if (sessionStorage.getItem("logged in")) {
-  //       if (sessionStorage.getItem("logged in") === "true") {
-  //         setLoginState("true");
-  //       }
-  //     } else {
-  //       setLoginState("false");
-  //     }
-  //   }
-  // }, []);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleSetUser = () => {
+    dispatch(
+      setUser({ loggedIn: true, name: "john_doe", email: "john@example.com" })
+    );
+  };
+
+  const handleClearUser = () => {
+    dispatch(clearUser());
+  };
+
+  const handleUpdateUsername = (newUsername: string) => {
+    dispatch(updateUsername(newUsername));
+  };
+
+  const handleUpdateEmail = (newEmail: string) => {
+    dispatch(updateEmail(newEmail));
+  };
+
+  //console.log(user.loggedIn);
 
   return (
     <>
       {/* Navbar */}
       <nav className="bg-[#424242]">
         <div className="h-[84px] flex flex-wrap justify-between items-center mx-auto p-4">
-          {/* <a
-            href="https://flowbite.com"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              DLU Underground
-            </span>
-          </a> */}
-
           <Link href="/" className="text-white">
             DLU Underground
           </Link>
