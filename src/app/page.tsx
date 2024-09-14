@@ -1,7 +1,13 @@
+import BannerSection from "@/components/Section/BannerSection";
+import OnSaleSection from "@/components/Section/OnSaleSection";
+import ProductSection from "@/components/Section/ProductSection";
+
 export default function Home() {
   return (
-    <main>
-      <div>hello home page</div>
+    <main className="min-h-screen">
+      <BannerSection />
+      <OnSaleSection />
+      <ProductSection />
     </main>
   );
 }
