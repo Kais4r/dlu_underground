@@ -1,7 +1,25 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
+import LogInButton from "./LogInButton";
+import LogOutButton from "./LogOutButton";
+
 export default function Navbar() {
+  //const [login, setLoginState] = useState("false");
+  // useEffect(() => {
+  //   // Check if sessionStorage is available (only on the client-side)
+  //   if (typeof window !== "undefined") {
+  //     if (sessionStorage.getItem("logged in")) {
+  //       if (sessionStorage.getItem("logged in") === "true") {
+  //         setLoginState("true");
+  //       }
+  //     } else {
+  //       setLoginState("false");
+  //     }
+  //   }
+  // }, []);
+
   return (
     <>
       {/* Navbar */}
@@ -29,9 +47,11 @@ export default function Navbar() {
             <p className="text-white">Deliver to location</p>
             <p className="text-white">Search bar</p>
             <p className="text-white">Reorder my item</p>
-            <Link href="/pages/login" className="text-white">
-              Login
-            </Link>
+
+            {/* {login ? <LogOutButton /> : <LogInButton />} */}
+            <LogInButton />
+            <LogOutButton />
+
             <p className="text-white">Cart</p>
           </div>
         </div>
