@@ -3,12 +3,19 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../store/store";
+import { setUser } from "../../store/features/userSlice";
+
 interface LoginFormValues {
   email: string;
   password: string;
 }
 
 export default function Page() {
+  //const user = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
+
   const router = useRouter();
   const [values, setValues] = useState<LoginFormValues>({
     email: "",
@@ -49,11 +56,20 @@ export default function Page() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Login successful:", data);
+        //console.log("Login successful:", data);
         // Handle successful login, e.g., redirect the user or store a token
         if (typeof window !== "undefined") {
           sessionStorage.setItem("logged in", "true");
         }
+
+        dispatch(
+          setUser({
+            loggedIn: true,
+            name: "john_doe",
+            email: "john@example.com",
+          })
+        );
+
         router.push("/");
       } else {
         setError(data.message || "Login failed");

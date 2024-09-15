@@ -1,42 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../app/store/store";
-import {
-  setUser,
-  clearUser,
-  updateUsername,
-  updateEmail,
-} from "../app/store/features/userSlice";
+// import {
+//   setUser,
+// } from "../app/store/features/userSlice";
 
 import LogInButton from "./LogInButton";
 import LogOutButton from "./LogOutButton";
 
 export default function Navbar() {
   const user = useSelector((state: RootState) => state.user);
-  const dispatch: AppDispatch = useDispatch();
-
-  const handleSetUser = () => {
-    dispatch(
-      setUser({ loggedIn: true, name: "john_doe", email: "john@example.com" })
-    );
-  };
-
-  const handleClearUser = () => {
-    dispatch(clearUser());
-  };
-
-  const handleUpdateUsername = (newUsername: string) => {
-    dispatch(updateUsername(newUsername));
-  };
-
-  const handleUpdateEmail = (newEmail: string) => {
-    dispatch(updateEmail(newEmail));
-  };
-
-  //console.log(user.loggedIn);
+  //const dispatch: AppDispatch = useDispatch();
 
   return (
     <>
@@ -52,9 +28,7 @@ export default function Navbar() {
             <p className="text-white">Search bar</p>
             <p className="text-white">Reorder my item</p>
 
-            {/* {login ? <LogOutButton /> : <LogInButton />} */}
-            <LogInButton />
-            <LogOutButton />
+            {user.loggedIn ? <LogOutButton /> : <LogInButton />}
 
             <p className="text-white">Cart</p>
           </div>
