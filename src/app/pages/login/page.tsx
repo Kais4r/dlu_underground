@@ -65,8 +65,8 @@ export default function Page() {
         dispatch(
           setUser({
             loggedIn: true,
-            name: "john_doe",
-            email: "john@example.com",
+            name: data?.user?.name ?? "error no name",
+            email: data?.user?.email ?? "error no email",
           })
         );
 

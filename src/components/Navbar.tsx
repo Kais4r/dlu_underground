@@ -8,7 +8,7 @@ import { RootState, AppDispatch } from "../app/store/store";
 // } from "../app/store/features/userSlice";
 
 import LogInButton from "./LogInButton";
-import LogOutButton from "./LogOutButton";
+import ProfileDropdown from "./ProfileDropDown";
 
 export default function Navbar() {
   const user = useSelector((state: RootState) => state.user);
@@ -29,7 +29,8 @@ export default function Navbar() {
 
             {user.loggedIn && <p className="text-white">Reorder my item</p>}
             {user.loggedIn && <p className="text-white">Cart</p>}
-            {user.loggedIn ? <LogOutButton /> : <LogInButton />}
+            {user.loggedIn && <ProfileDropdown />}
+            {!user.loggedIn && <LogInButton />}
           </div>
         </div>
       </nav>
