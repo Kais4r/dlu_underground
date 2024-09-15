@@ -43,28 +43,3 @@ export const { setUser, clearUser, updateUsername, updateEmail } =
 
 // Export the reducer
 export default userSlice.reducer;
-
-// handler use example
-// const handleSetUser = () => {
-//     dispatch(
-//       setUser({ loggedIn: true, name: "john_doe", email: "john@example.com" })
-//     );
-//   };
-
-//   const handleSetUserFalse = () => {
-//     dispatch(
-//       setUser({ loggedIn: false, name: "john_doe", email: "john@example.com" })
-//     );
-//   };
-
-//   const handleClearUser = () => {
-//     dispatch(clearUser());
-//   };
-
-//   const handleUpdateUsername = (newUsername: string) => {
-//     dispatch(updateUsername(newUsername));
-//   };
-
-//   const handleUpdateEmail = (newEmail: string) => {
-//     dispatch(updateEmail(newEmail));
-//   };
