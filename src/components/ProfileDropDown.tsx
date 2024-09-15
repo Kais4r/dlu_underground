@@ -4,6 +4,7 @@ import LogOutButton from "./LogOutButton";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../app/store/store";
+import Link from "next/link";
 
 export default function ProfileDropdown() {
   // Define the state to toggle the dropdown
@@ -32,28 +33,28 @@ export default function ProfileDropdown() {
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
             <ul className="py-1 text-gray-700">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                 >
-                  Option 1
-                </a>
+                  DLU Underground
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/pages/myAccount"
                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                 >
-                  Option 2
-                </a>
+                  My Account
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/myShop"
                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                 >
-                  Option 3
-                </a>
+                  My Shop
+                </Link>
               </li>
               <li className="block px-4 py-2 text-sm hover:bg-gray-100">
                 <LogOutButton />
