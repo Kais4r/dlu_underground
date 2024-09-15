@@ -4,7 +4,7 @@ import ProductSection from "@/components/Section/ProductSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="container mx-auto min-h-screen">
       <BannerSection />
       <OnSaleSection />
       <ProductSection />
