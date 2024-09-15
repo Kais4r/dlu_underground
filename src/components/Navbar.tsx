@@ -26,11 +26,10 @@ export default function Navbar() {
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
             <p className="text-white">Deliver to location</p>
             <p className="text-white">Search bar</p>
-            <p className="text-white">Reorder my item</p>
 
+            {user.loggedIn && <p className="text-white">Reorder my item</p>}
+            {user.loggedIn && <p className="text-white">Cart</p>}
             {user.loggedIn ? <LogOutButton /> : <LogInButton />}
-
-            <p className="text-white">Cart</p>
           </div>
         </div>
       </nav>
@@ -41,12 +40,12 @@ export default function Navbar() {
           <div className="flex items-center">
             <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
               <li>
-                <button
+                {/* <button
                   className="bg-gray-800 text-white font-semibold rounded-full px-6 py-2 text-sm hover:bg-gray-900 
                 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ease-in-out"
                 >
                   Categories
-                </button>
+                </button> */}
               </li>
               <li>
                 <Link
