@@ -1,4 +1,4 @@
-interface Product {
+/* interface Product {
   id: number;
   name: string;
   image: string;
@@ -158,6 +158,140 @@ const demoProducts: Product[] = [
       "https://images.unsplash.com/photo-1699901232384-f1646fb2a8da?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     price: 375,
     onSale: false,
+  },
+]; */
+
+export interface Product {
+  productID: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  brand: string;
+  sku: string;
+  stockQuantity: number;
+  images: string[];
+  thumbnailImage: string;
+  weight?: number;
+  dimensions?: {
+    length: number;
+    width: number;
+    height: number;
+  };
+  color?: string[];
+  size?: string[];
+  material?: string;
+  rating?: number;
+  reviews?: string[];
+  dateAdded: Date;
+  dateModified: Date;
+  status: "in stock" | "out of stock" | "discontinued";
+  discount?: number;
+  tags?: string[];
+  supplierID?: string;
+  warranty?: string;
+  shippingDetails?: string;
+}
+
+const demoProducts: Product[] = [
+  {
+    productID: "1",
+    name: "Product 1",
+    description: "Product 1 description",
+    price: 100,
+    category: "Category 1",
+    brand: "Brand 1",
+    sku: "SKU 1",
+    stockQuantity: 10,
+    images: [
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    ],
+    thumbnailImage:
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    dateAdded: new Date(),
+    dateModified: new Date(),
+    status: "in stock",
+  },
+  {
+    productID: "2",
+    name: "Product 2",
+    description: "Product 2 description",
+    price: 150,
+    category: "Category 2",
+    brand: "Brand 2",
+    sku: "SKU 2",
+    stockQuantity: 8,
+    images: [
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    ],
+    thumbnailImage:
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    dateAdded: new Date(),
+    dateModified: new Date(),
+    status: "in stock",
+    discount: 20,
+  },
+  {
+    productID: "3",
+    name: "Product 3",
+    description: "Product 3 description",
+    price: 200,
+    category: "Category 3",
+    brand: "Brand 3",
+    sku: "SKU 3",
+    stockQuantity: 15,
+    images: [
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    ],
+    thumbnailImage:
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    dateAdded: new Date(),
+    dateModified: new Date(),
+    status: "in stock",
+    discount: 15,
+  },
+  {
+    productID: "4",
+    name: "Product 4",
+    description: "Product 4 description",
+    price: 250,
+    category: "Category 4",
+    brand: "Brand 4",
+    sku: "SKU 4",
+    stockQuantity: 12,
+    images: [
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    ],
+    thumbnailImage:
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    dateAdded: new Date(),
+    dateModified: new Date(),
+    status: "in stock",
+    discount: 10,
+  },
+  {
+    productID: "5",
+    name: "Product 5",
+    description: "Product 5 description",
+    price: 300,
+    category: "Category 5",
+    brand: "Brand 5",
+    sku: "SKU 5",
+    stockQuantity: 20,
+    images: [
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    ],
+    thumbnailImage:
+      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80",
+    dateAdded: new Date(),
+    dateModified: new Date(),
+    status: "in stock",
+    discount: 5,
   },
 ];
 
