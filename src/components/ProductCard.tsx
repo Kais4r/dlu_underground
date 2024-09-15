@@ -10,7 +10,7 @@ export default function ProductCard(product: Product) {
     >
       <Link
         className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-        href="/pages/details/[productID]"
+        href={`/pages/details/${product.productID}`}
       >
         <Image
           fill={true}
