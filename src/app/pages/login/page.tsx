@@ -68,6 +68,7 @@ export default function Page() {
             id: data?.user?._id ?? "error no id",
             name: data?.user?.name ?? "error no name",
             email: data?.user?.email ?? "error no email",
+            dluCoin: data?.user?.dluCoin ?? "error no money in account",
           })
         );
 

@@ -3,9 +3,11 @@ import React from "react";
 //import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../app/store/store";
-import { setUser } from "../app/store/features/userSlice";
+import { clearUser } from "../app/store/features/userSlice";
+import { useRouter } from "next/navigation";
 
 export default function LogOutButton() {
+  const router = useRouter();
   //const user = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
@@ -13,7 +15,8 @@ export default function LogOutButton() {
     if (typeof window !== "undefined") {
       sessionStorage.clear();
     }
-    dispatch(setUser({ loggedIn: false, name: "", email: "" }));
+    dispatch(clearUser());
+    router.push("/");
   };
 
   return <button onClick={handleLogout}>Log Out</button>;

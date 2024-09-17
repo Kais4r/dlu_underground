@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 import LogInButton from "./LogInButton";
 import ProfileDropdown from "./ProfileDropDown";
+import CartButton from "./CartButton";
 
 export default function Navbar() {
   const user = useSelector((state: RootState) => state.user);
@@ -33,7 +34,7 @@ export default function Navbar() {
             <p className="text-white">Search bar</p>
 
             {user.loggedIn && <p className="text-white">Reorder my item</p>}
-            {user.loggedIn && <p className="text-white">Cart</p>}
+            {user.loggedIn && <CartButton />}
             {user.loggedIn && <ProfileDropdown />}
             {!user.loggedIn && <LogInButton />}
           </div>
@@ -41,42 +42,44 @@ export default function Navbar() {
       </nav>
 
       {/* Navbar submenu */}
-      {pathname !== "/myShop" && pathname !== "/pages/myAccount" && (
-        <nav className="bg-[#CCCCCC]">
-          <div className="h-[48px] px-4 py-3 mx-auto">
-            <div className="flex items-center">
-              <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-                <li>
-                  {/* <button
+      {pathname !== "/myShop" &&
+        pathname !== "/pages/myAccount" &&
+        pathname !== "/pages/cart" && (
+          <nav className="bg-[#CCCCCC]">
+            <div className="h-[48px] px-4 py-3 mx-auto">
+              <div className="flex items-center">
+                <ul className="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
+                  <li>
+                    {/* <button
                   className="bg-gray-800 text-white font-semibold rounded-full px-6 py-2 text-sm hover:bg-gray-900 
                 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-colors duration-200 ease-in-out"
                 >
                   Categories
                 </button> */}
-                </li>
-                <li>
-                  <Link
-                    href="/"
-                    className="text-gray-900 dark:text-white hover:underline"
-                    aria-current="page"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/pages/catalog"
-                    className="text-gray-900 dark:text-white hover:underline"
-                    aria-current="page"
-                  >
-                    Catalog
-                  </Link>
-                </li>
-              </ul>
+                  </li>
+                  <li>
+                    <Link
+                      href="/"
+                      className="text-gray-900 dark:text-white hover:underline"
+                      aria-current="page"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/pages/catalog"
+                      className="text-gray-900 dark:text-white hover:underline"
+                      aria-current="page"
+                    >
+                      Catalog
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </nav>
-      )}
+          </nav>
+        )}
     </>
   );
 }

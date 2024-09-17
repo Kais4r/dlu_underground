@@ -7,6 +7,7 @@ interface UserState {
   id: string;
   name: string;
   email: string;
+  dluCoin: number;
 }
 
 // Define the initial state
@@ -15,6 +16,7 @@ const initialState: UserState = {
   id: "",
   name: "",
   email: "",
+  dluCoin: 0,
 };
 
 // Create the user slice
@@ -27,10 +29,14 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.name = action.payload.name;
       state.email = action.payload.email;
+      state.dluCoin = action.payload.dluCoin;
     },
     clearUser: (state) => {
+      state.loggedIn = false;
+      state.id = "";
       state.name = "";
       state.email = "";
+      state.dluCoin = 0;
     },
     updateUsername: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
