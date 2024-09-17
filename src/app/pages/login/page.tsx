@@ -65,6 +65,7 @@ export default function Page() {
         dispatch(
           setUser({
             loggedIn: true,
+            id: data?.user?._id ?? "error no id",
             name: data?.user?.name ?? "error no name",
             email: data?.user?.email ?? "error no email",
           })

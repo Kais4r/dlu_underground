@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 // Define the user state interface
 interface UserState {
   loggedIn: boolean;
+  id: string;
   name: string;
   email: string;
 }
@@ -10,6 +12,7 @@ interface UserState {
 // Define the initial state
 const initialState: UserState = {
   loggedIn: false,
+  id: "",
   name: "",
   email: "",
 };
@@ -21,6 +24,7 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
       state.loggedIn = action.payload.loggedIn;
+      state.id = action.payload.id;
       state.name = action.payload.name;
       state.email = action.payload.email;
     },

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star, ShoppingCart, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,17 +16,110 @@ import {
 } from "@/components/ui/select";
 import Image from "next/image";
 
-export default function Page(params: { params: { productID: string } }) {
-  const [mainImage, setMainImage] = useState("/400x400.svg");
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../store/store";
 
-  const productImages = [
-    "/100x100.svg",
-    "/100x100.svg",
-    "/100x100.svg",
-    "/100x100.svg",
-    "/100x100.svg",
-    "/100x100.svg",
-  ];
+type Product = {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  discount?: number;
+  thumbnailImage: string;
+  images: string[];
+  rating: number;
+  reviews: string[];
+  specifications: {
+    dimensions: string;
+    weight: string;
+    material: string;
+  };
+};
+
+export default function Page({
+  params: { productID },
+}: {
+  params: { productID: string };
+}) {
+  const user = useSelector((state: RootState) => state.user);
+  const [mainImage, setMainImage] = useState("/400x400.svg");
+  const [product, setProduct] = useState<Product | null>(null);
+  const [productLoading, setProductLoading] = useState(true);
+  const [selectedColor, setSelectedColor] = useState("black");
+  const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/product/get/${productID}`
+        );
+        const data = await response.json();
+        if (data.success) {
+          setProduct(data.product);
+          setMainImage(data.product.thumbnailImage); // Set main image to thumbnailImage
+        } else {
+          console.error("Failed to fetch product details");
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching the product:", error);
+      } finally {
+        setProductLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [productID]);
+
+  var price = 0;
+  if (product) {
+    price = product.discount
+      ? product.price * (1 - product.discount / 100)
+      : product.price;
+  }
+
+  if (productLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+
+    try {
+      const response = await fetch("http://localhost:3001/buyerCart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID: user.id, // Replace with actual userID
+          productID: product._id,
+          color: selectedColor,
+          quantity,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("Item added to cart successfully");
+        // Optionally, provide feedback to the user
+      } else {
+        setError("Failed to add item to cart");
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while adding the item to the cart:",
+        error
+      );
+      setError("An unexpected error occurred");
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -40,7 +133,7 @@ export default function Page(params: { params: { productID: string } }) {
             height={400}
           />
           <div className="flex space-x-2">
-            {productImages.map((img, index) => (
+            {product?.images.map((img, index) => (
               <Image
                 key={index}
                 src={img}
@@ -54,28 +147,27 @@ export default function Page(params: { params: { productID: string } }) {
           </div>
         </div>
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold">Ergonomic Office Chair</h1>
+          {/* Product name */}
+          <h1 className="text-3xl font-bold">{product?.name}</h1>
           <div className="flex items-center space-x-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-primary" />
               ))}
             </div>
-            <span className="text-sm text-muted-foreground">(128 reviews)</span>
+            <span className="text-sm text-muted-foreground">
+              reviews function not done
+            </span>
           </div>
-          <p className="text-xl font-bold">$299.99</p>
-          <p className="text-muted-foreground">
-            Experience ultimate comfort with our ergonomic office chair.
-            Designed to support your body during long work hours, this chair
-            features adjustable lumbar support, breathable mesh back, and
-            customizable armrests.
-          </p>
+          <p className="text-xl font-bold">${price}</p>
+          <p className="text-muted-foreground">{product?.description}</p>
           <div className="space-y-4">
             <div>
               <Label htmlFor="color">Color</Label>
               <RadioGroup
                 id="color"
-                defaultValue="black"
+                value={selectedColor}
+                onValueChange={setSelectedColor}
                 className="flex space-x-2 mt-2"
               >
                 <Label
@@ -103,7 +195,10 @@ export default function Page(params: { params: { productID: string } }) {
             </div>
             <div>
               <Label htmlFor="quantity">Quantity</Label>
-              <Select defaultValue="1">
+              <Select
+                defaultValue="1"
+                onValueChange={(value) => setQuantity(Number(value))}
+              >
                 <SelectTrigger className="w-24 mt-2">
                   <SelectValue placeholder="Quantity" />
                 </SelectTrigger>
@@ -118,13 +213,14 @@ export default function Page(params: { params: { productID: string } }) {
             </div>
           </div>
           <div className="flex space-x-4">
-            <Button className="flex-1">
+            <Button className="flex-1" onClick={handleAddToCart}>
               <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
             </Button>
             <Button variant="outline">
               <Heart className="h-4 w-4" />
             </Button>
           </div>
+          {error && <p className="text-red-500">{error}</p>}
         </div>
       </div>
       <Card className="mt-8">
