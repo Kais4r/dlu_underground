@@ -29,6 +29,7 @@ type ShippingAddress = {
 export default function Page() {
   const user = useSelector((state: RootState) => state.user);
   const [dluCoin, setDluCoin] = useState("");
+  const [orderClicked, setOrderClicker] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +69,7 @@ export default function Page() {
     if (user.id) {
       fetchUserData();
     }
-  }, [orderStatus]);
+  }, [orderClicked]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -109,9 +110,8 @@ export default function Page() {
   }, []);
 
   const handleOrder = async () => {
-    console.log(paymentMethod);
     if (!selectedItem || !shippingAddress) {
-      console.error("Selected item or shipping address is missing");
+      //console.error("Selected item or shipping address is missing");
       return;
     }
 
@@ -159,8 +159,9 @@ export default function Page() {
   useEffect(() => {
     if (paymentMethod) {
       handleOrder(); // Call handleOrder when paymentMethod changes
+      console.log(paymentMethod);
     }
-  }, [paymentMethod]);
+  }, [orderClicked]);
 
   const handleDluCoinPayment = async (orderID: string) => {
     try {
@@ -197,6 +198,8 @@ export default function Page() {
   if (error) {
     return <div>{error}</div>;
   }
+
+  console.log(paymentMethod);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -260,27 +263,39 @@ export default function Page() {
             <div className="flex flex-col space-y-2">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded"
-                onClick={() => setPaymentMethod("dluCoin")}
+                onClick={() => {
+                  setPaymentMethod("dluCoin");
+                  setOrderClicker((prevState) => !prevState);
+                }}
               >
                 Pay with DLU Coin
               </button>
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded"
-                onClick={() => setPaymentMethod("credit card")}
+                onClick={() => {
+                  setPaymentMethod("credit card");
+                  setOrderClicker((prevState) => !prevState);
+                }}
               >
                 Pay with Credit Card
               </button>
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded"
-                onClick={() => setPaymentMethod("cash on delivery")}
+                onClick={() => {
+                  setPaymentMethod("cash on delivery");
+                  setOrderClicker((prevState) => !prevState);
+                }}
               >
                 Pay with Cash on Delivery
               </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded"
-                onClick={() => setSelectedItem(null)}
+                onClick={() => {
+                  setSelectedItem(null);
+                  setOrderClicker((prevState) => !prevState);
+                }}
               >
-                Cancel
+                Close
               </button>
             </div>
           </div>
