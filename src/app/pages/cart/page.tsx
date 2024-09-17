@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { combineReducers } from "@reduxjs/toolkit";
 
 type CartItem = {
   productID: string;
@@ -27,6 +28,7 @@ type ShippingAddress = {
 
 export default function Page() {
   const user = useSelector((state: RootState) => state.user);
+  const [dluCoin, setDluCoin] = useState("");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +41,34 @@ export default function Page() {
     useState<string>("Standard shipping");
   const [shippingCost, setShippingCost] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
+
+  // Fetch user data and set dluCoin
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/user/get/${user.id}`
+        );
+        const data = await response.json();
+
+        if (data.success && data.user) {
+          setDluCoin(data.user.dluCoin.toFixed(2)); // Update dluCoin state
+        } else {
+          setError("Failed to fetch user data");
+          console.error("Invalid response format:", data);
+        }
+      } catch (error) {
+        setError("An error occurred while fetching user data.");
+        console.error("An error occurred while fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user.id) {
+      fetchUserData();
+    }
+  }, [orderStatus]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -79,6 +109,7 @@ export default function Page() {
   }, []);
 
   const handleOrder = async () => {
+    console.log(paymentMethod);
     if (!selectedItem || !shippingAddress) {
       console.error("Selected item or shipping address is missing");
       return;
@@ -109,14 +140,53 @@ export default function Page() {
       const data = await response.json();
 
       if (data.success) {
-        setOrderStatus("Order created successfully");
-        console.log(orderStatus);
+        console.log("create an order");
+        if (paymentMethod === "dluCoin") {
+          console.log(data);
+          await handleDluCoinPayment(data.order._id); // Call DLU Coin payment API
+        } else {
+          setOrderStatus("Order created successfully");
+        }
       } else {
         setOrderStatus(`Failed to create order: ${data.message}`);
       }
     } catch (error) {
       console.error("Failed to create order:", error);
       setOrderStatus("An error occurred while creating the order.");
+    }
+  };
+
+  useEffect(() => {
+    if (paymentMethod) {
+      handleOrder(); // Call handleOrder when paymentMethod changes
+    }
+  }, [paymentMethod]);
+
+  const handleDluCoinPayment = async (orderID: string) => {
+    try {
+      const response = await fetch("http://localhost:3001/order/pay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerID: user.id,
+          orderID,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setOrderStatus("Payment successful and order updated");
+      } else {
+        setOrderStatus(`Failed to process payment: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Failed to process DLU Coin payment:", error);
+      setOrderStatus(
+        "An error occurred while processing the DLU Coin payment."
+      );
     }
   };
 
@@ -133,9 +203,11 @@ export default function Page() {
       <h1 className="text-3xl font-bold mb-6">Cart</h1>
       {user.dluCoin && (
         <p className="text-lg font-medium text-gray-700 mb-4">
-          DLU Coin Balance: {parseFloat(user.dluCoin.toString()).toFixed(2)}
+          DLU Coin Balance: {dluCoin}
         </p>
       )}
+
+      {orderStatus && <p>{orderStatus}</p>}
 
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
@@ -188,30 +260,19 @@ export default function Page() {
             <div className="flex flex-col space-y-2">
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  setPaymentMethod("dluCoin");
-                  setSelectedItem(null);
-                }}
+                onClick={() => setPaymentMethod("dluCoin")}
               >
                 Pay with DLU Coin
               </button>
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  setPaymentMethod("credit card");
-                  handleOrder();
-                  // setSelectedItem(null);
-                }}
+                onClick={() => setPaymentMethod("credit card")}
               >
                 Pay with Credit Card
               </button>
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  setPaymentMethod("cash on delivery");
-                  handleOrder();
-                  // setSelectedItem(null);
-                }}
+                onClick={() => setPaymentMethod("cash on delivery")}
               >
                 Pay with Cash on Delivery
               </button>
@@ -225,8 +286,6 @@ export default function Page() {
           </div>
         </div>
       )}
-
-      {orderStatus && <p>{orderStatus}</p>}
     </div>
   );
 }
