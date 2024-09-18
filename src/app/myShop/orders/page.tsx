@@ -1,18 +1,21 @@
 "use client";
 
+import { Order } from "../../../types/order";
 import { useState, useEffect } from "react";
 import OrdersList from "@/components/OrdersList";
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../store/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export default function Page() {
   const shop = useSelector((state: RootState) => state.shop);
   const [activeTab, setActiveTab] = useState("orderStatus");
   const [activeSubTab, setActiveSubTab] = useState("pending");
-  const [orders, setOrders] = useState([]);
 
-  // Fetch orders (you can adapt this to fetch from your API)
+  // Explicitly define orders as an array of Order objects
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  // Fetch orders
   useEffect(() => {
     const fetchOrders = async () => {
       const res = await fetch(
@@ -23,17 +26,17 @@ export default function Page() {
     };
 
     fetchOrders();
-  }, []);
+  }, [shop.shopData?.name]);
 
   const renderContent = () => {
     if (activeTab === "orderStatus") {
       const filteredOrders = orders.filter(
-        (order) => order.orderStatus === activeSubTab
+        (order: Order) => order.orderStatus === activeSubTab
       );
       return <OrdersList orders={filteredOrders} />;
     } else if (activeTab === "paymentStatus") {
       const filteredOrders = orders.filter(
-        (order) => order.paymentStatus === activeSubTab
+        (order: Order) => order.paymentStatus === activeSubTab
       );
       return <OrdersList orders={filteredOrders} />;
     } else if (activeTab === "viewAll") {

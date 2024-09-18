@@ -1,38 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { Order } from "../../../types/order";
+import { useState, useEffect } from "react";
+import OrdersList from "@/components/OrdersList";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export default function Page() {
+  const user = useSelector((state: RootState) => state.user);
   const [activeTab, setActiveTab] = useState("orderStatus");
   const [activeSubTab, setActiveSubTab] = useState("pending");
 
+  // Explicitly define orders as an array of Order objects
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  // Fetch orders
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await fetch(
+        `http://localhost:3001/order/by-customer-id?customerID=${user?.id}`
+      );
+      const data = await res.json();
+      setOrders(data); // Set the orders
+    };
+
+    fetchOrders();
+  }, [user.id]);
+
   const renderContent = () => {
     if (activeTab === "orderStatus") {
-      switch (activeSubTab) {
-        case "pending":
-          return <p>Displaying orders that are currently pending.</p>;
-        case "processing":
-          return <p>Displaying orders that are currently being processed.</p>;
-        case "shipped":
-          return <p>Displaying orders that have been shipped.</p>;
-        case "delivered":
-          return <p>Displaying orders that have been delivered.</p>;
-        case "canceled":
-          return <p>Displaying orders that have been canceled.</p>;
-        default:
-          return <p>Select an order status to view orders.</p>;
-      }
+      const filteredOrders = orders.filter(
+        (order: Order) => order.orderStatus === activeSubTab
+      );
+      return <OrdersList orders={filteredOrders} />;
     } else if (activeTab === "paymentStatus") {
-      switch (activeSubTab) {
-        case "unpaid":
-          return <p>Displaying orders with unpaid status.</p>;
-        case "paid":
-          return <p>Displaying orders with paid status.</p>;
-        case "refunded":
-          return <p>Displaying orders with refunded status.</p>;
-        default:
-          return <p>Select a payment status to view orders.</p>;
-      }
+      const filteredOrders = orders.filter(
+        (order: Order) => order.paymentStatus === activeSubTab
+      );
+      return <OrdersList orders={filteredOrders} />;
+    } else if (activeTab === "viewAll") {
+      return <OrdersList orders={orders} />;
     }
     return <p>Select a tab to view content.</p>;
   };
@@ -43,6 +51,18 @@ export default function Page() {
       <aside className="w-64 bg-gray-800 text-white min-h-screen p-4">
         <h2 className="text-xl font-semibold mb-4">Orders</h2>
         <div className="space-y-4">
+          {/* View All Tab */}
+          <div>
+            <button
+              onClick={() => setActiveTab("viewAll")}
+              className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
+                activeTab === "viewAll" ? "bg-gray-700" : ""
+              }`}
+            >
+              View All
+            </button>
+          </div>
+
           {/* Order Status Tab */}
           <div>
             <h3 className="text-lg font-medium">Order Status</h3>
@@ -100,7 +120,11 @@ export default function Page() {
         <h1 className="text-2xl font-bold mb-4">Order Management</h1>
         <div>
           <h2 className="text-xl font-semibold mb-2">
-            {activeTab === "orderStatus" ? "Order Status" : "Payment Status"}
+            {activeTab === "orderStatus"
+              ? "Order Status"
+              : activeTab === "paymentStatus"
+              ? "Payment Status"
+              : "All Orders"}
           </h2>
           {renderContent()}
         </div>

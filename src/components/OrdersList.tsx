@@ -1,6 +1,7 @@
 import React from "react";
+import { Order } from "../types/order";
 
-const OrdersList = ({ orders }) => {
+const OrdersList = ({ orders }: { orders: Order[] }) => {
   if (!orders || orders.length === 0) {
     return <p>No orders available.</p>;
   }
