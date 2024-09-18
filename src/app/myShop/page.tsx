@@ -19,7 +19,7 @@ type FormValues = {
 
 export default function Page() {
   const user = useSelector((state: RootState) => state.user);
-  const shop = useSelector((state: RootState) => state.shop);
+  //const shop = useSelector((state: RootState) => state.shop);
   const dispatch: AppDispatch = useDispatch();
 
   const [hasShop, setHasShop] = useState<boolean | null>(null);
