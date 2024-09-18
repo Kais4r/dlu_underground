@@ -2,13 +2,18 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../store/store";
+
 export default function Page() {
+  const shop = useSelector((state: RootState) => state.shop);
+  //console.log(shop.shopData?.name);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     category: "",
-    brand: "",
+    brand: shop.shopData?.name || "error cant get shop brand name",
     sku: "",
     stockQuantity: "",
     images: "",
@@ -157,12 +162,13 @@ export default function Page() {
             id="brand"
             name="brand"
             type="text"
-            value={formData.brand}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            value={shop.shopData?.name ?? "Shop name is not available"} // Use the locked value here
+            readOnly // Make the input field read-only
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-600 cursor-not-allowed focus:outline-none sm:text-sm"
             placeholder="Brand"
           />
         </div>
+
         <div>
           <label
             htmlFor="sku"

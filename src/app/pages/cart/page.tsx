@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { combineReducers } from "@reduxjs/toolkit";
 
 type CartItem = {
   productID: string;
   name: string;
+  brand: string;
   price: number;
   quantity: number;
   totalPrice: number;
@@ -230,6 +230,7 @@ export default function Page() {
               />
               <div className="flex-1">
                 <h2 className="text-xl font-semibold">{item.name}</h2>
+                <p className="text-gray-600">Brand: {item.brand}</p>
                 <p className="text-gray-600">Price: ${item.price}</p>
                 <p className="text-gray-600">Quantity: {item.quantity}</p>
                 <p className="text-gray-600">Total: ${item.totalPrice}</p>

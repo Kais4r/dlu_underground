@@ -22,6 +22,7 @@ import { RootState, AppDispatch } from "../../../store/store";
 type Product = {
   _id: string;
   name: string;
+  brand: string;
   description: string;
   price: number;
   discount?: number;
@@ -99,6 +100,7 @@ export default function Page({
         body: JSON.stringify({
           userID: user.id, // Replace with actual userID
           productID: product._id,
+          brand: product.brand,
           color: selectedColor,
           quantity,
         }),
@@ -149,6 +151,7 @@ export default function Page({
         <div className="space-y-6">
           {/* Product name */}
           <h1 className="text-3xl font-bold">{product?.name}</h1>
+          <p className="text-xl font-bold">{product?.brand}</p>
           <div className="flex items-center space-x-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (

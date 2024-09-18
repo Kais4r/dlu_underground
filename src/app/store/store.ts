@@ -1,10 +1,12 @@
 //"use client";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/userSlice"; // Import the user reducer
+import shopReducer from "./features/shopSlice"; // Import the shop reducer
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    shop: shopReducer,
   },
 });
 
