@@ -30,7 +30,7 @@ export default function Page() {
     // Fetch product data from the API
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3001/product/on-sale");
+        const response = await fetch("http://localhost:3001/product/all");
         const data = await response.json();
         if (data.success) {
           setProducts(data.products); // Update the state with fetched products
