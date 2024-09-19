@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReduxProvider>
           <Navbar />
-          {children}
+          <main className="container mx-auto min-h-screen">{children}</main>
           <Footer />
         </ReduxProvider>
       </body>
