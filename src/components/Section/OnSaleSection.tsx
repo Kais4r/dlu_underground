@@ -20,6 +20,7 @@ export default function OnSaleSection() {
     // Fetch product data from the API
     const fetchProducts = async () => {
       try {
+        // TODO: Replace with your actual endpoint
         const response = await fetch("http://localhost:3001/product/on-sale");
         const data = await response.json();
         if (data.success) {
