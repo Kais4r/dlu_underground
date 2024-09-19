@@ -21,6 +21,12 @@ export default function Page() {
             View orders
           </Link>
           <Link
+            href="/myShop/regularCustomer"
+            className="block bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition-colors duration-300"
+          >
+            Regular customer
+          </Link>
+          <Link
             href="/myShop/shopInventory"
             className="block bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition-colors duration-300"
           >

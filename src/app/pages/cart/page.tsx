@@ -128,6 +128,7 @@ export default function Page() {
         },
         body: JSON.stringify({
           customerID: user.id,
+          customerName: user.name,
           products: [selectedItem],
           paymentMethod,
           shippingAddress,
