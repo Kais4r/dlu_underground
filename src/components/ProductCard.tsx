@@ -25,7 +25,7 @@ export default function ProductCard(product: Product) {
         <Image
           fill={true}
           className="object-cover"
-          src={product.thumbnailImage} // Use the thumbnailImage
+          src={product.thumbnailImage || "400x400.svg"} // Use the thumbnailImage
           alt="product thumbnail"
         />
         {product.discount && (
