@@ -69,7 +69,7 @@ export default function Page() {
     if (user.id) {
       fetchUserData();
     }
-  }, [orderClicked]);
+  }, [user.id]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -93,40 +93,43 @@ export default function Page() {
       }
     };
 
-    fetchCartItems();
+    if (user.id) {
+      fetchCartItems();
+    }
   }, [user.id]);
 
   useEffect(() => {
     setShippingAddress({
-      fullName: "John Doe",
-      addressLine1: "123 Main St",
-      addressLine2: "Apt 4B",
-      city: "Springfield",
-      state: "IL",
-      postalCode: "62701",
-      country: "USA",
-      phoneNumber: "+1-555-123-4567",
+      fullName: user.name,
+      addressLine1: "1 Phu Dong Thien Vuong",
+      addressLine2: "1 Phu Dong Thien Vuong",
+      city: "Da Lat",
+      state: "Lam Dong",
+      postalCode: "67000",
+      country: "Viet Nam",
+      phoneNumber: "09999999999",
     });
   }, []);
 
   const removeItemFromCart = async (item: CartItem) => {
     try {
-      const response = await fetch("/remove", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userID: user.id,
-          productID: item.productID,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3001/buyerCart/delete/${user.id}/item/${item.productID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok) {
         // Update the cart items in the state
-        setCartItems(data.cart.items);
+        setCartItems((prevItems) =>
+          prevItems.filter((cartItem) => cartItem.productID !== item.productID)
+        );
       } else {
         console.error(data.message);
       }
@@ -141,7 +144,6 @@ export default function Page() {
 
   const handleOrder = async () => {
     if (!selectedItem || !shippingAddress) {
-      //console.error("Selected item or shipping address is missing");
       return;
     }
 
@@ -171,9 +173,8 @@ export default function Page() {
       const data = await response.json();
 
       if (data.success) {
-        console.log("create an order");
+        console.log("Order created");
         if (paymentMethod === "dluCoin") {
-          console.log(data);
           await handleDluCoinPayment(data.order._id); // Call DLU Coin payment API
         } else {
           setOrderStatus("Order created successfully");
@@ -190,7 +191,6 @@ export default function Page() {
   useEffect(() => {
     if (paymentMethod) {
       handleOrder(); // Call handleOrder when paymentMethod changes
-      console.log(paymentMethod);
     }
   }, [orderClicked]);
 
@@ -229,8 +229,6 @@ export default function Page() {
   if (error) {
     return <div>{error}</div>;
   }
-
-  console.log(paymentMethod);
 
   return (
     <div className="container mx-auto px-4 py-8">
