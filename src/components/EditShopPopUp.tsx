@@ -12,6 +12,8 @@ type EditShopPopupProps = {
       city: string;
       country: string;
     };
+    platformDiscount: number; // New field
+    platformShippingDiscount: number; // New field
   };
   onEditShop: (shopData: {
     _id: string;
@@ -22,6 +24,8 @@ type EditShopPopupProps = {
       city: string;
       country: string;
     };
+    platformDiscount: number; // New field
+    platformShippingDiscount: number; // New field
   }) => void;
 };
 
@@ -123,6 +127,29 @@ export default function EditShopPopup({
             onChange={handleChange}
             className="border p-2 w-full"
             required
+          />
+        </div>
+
+        <h3 className="font-semibold mb-2">Discounts</h3>
+        <div className="mb-4">
+          <label className="block mb-1">Platform Discount</label>
+          <input
+            type="number"
+            name="platformDiscount"
+            value={editedShopData.platformDiscount}
+            onChange={handleChange}
+            className="border p-2 w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-1">Platform Shipping Discount</label>
+          <input
+            type="number"
+            name="platformShippingDiscount"
+            value={editedShopData.platformShippingDiscount}
+            onChange={handleChange}
+            className="border p-2 w-full"
           />
         </div>
 

@@ -12,6 +12,8 @@ type CreateShopPopupProps = {
       city: string;
       country: string;
     };
+    platformDiscount: number;
+    platformShippingDiscount: number;
   }) => void;
 };
 
@@ -29,6 +31,8 @@ export default function CreateShopPopupAdmin({
       city: "",
       country: "",
     },
+    platformDiscount: 0, // New field for platform discount
+    platformShippingDiscount: 0, // New field for platform shipping discount
   });
 
   const handleChange = (
@@ -52,7 +56,13 @@ export default function CreateShopPopupAdmin({
   };
 
   const handleSubmit = () => {
-    onCreateShop(shopData);
+    // Convert platformDiscount and platformShippingDiscount to numbers before submitting
+    const finalShopData = {
+      ...shopData,
+      platformDiscount: Number(shopData.platformDiscount),
+      platformShippingDiscount: Number(shopData.platformShippingDiscount),
+    };
+    onCreateShop(finalShopData);
     onClose(); // Close the popup after creating
   };
 
@@ -132,6 +142,35 @@ export default function CreateShopPopupAdmin({
             onChange={handleChange}
             className="border p-2 w-full"
             required
+          />
+        </div>
+
+        <h3 className="font-semibold mb-2">Platform Discounts</h3>
+        <div className="mb-4">
+          <label className="block mb-1">Platform Discount</label>
+          <input
+            type="number"
+            name="platformDiscount"
+            value={shopData.platformDiscount}
+            onChange={handleChange}
+            className="border p-2 w-full"
+            required
+            min="0"
+            max="100"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-1">Platform Shipping Discount</label>
+          <input
+            type="number"
+            name="platformShippingDiscount"
+            value={shopData.platformShippingDiscount}
+            onChange={handleChange}
+            className="border p-2 w-full"
+            required
+            min="0"
+            max="100"
           />
         </div>
 
