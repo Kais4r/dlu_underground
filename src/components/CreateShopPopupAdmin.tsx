@@ -15,7 +15,7 @@ type CreateShopPopupProps = {
   }) => void;
 };
 
-export default function CreateShopPopup({
+export default function CreateShopPopupAdmin({
   isOpen,
   onClose,
   onCreateShop,
