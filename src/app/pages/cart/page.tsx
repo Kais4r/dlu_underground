@@ -109,6 +109,36 @@ export default function Page() {
     });
   }, []);
 
+  const removeItemFromCart = async (item: CartItem) => {
+    try {
+      const response = await fetch("/remove", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID: user.id,
+          productID: item.productID,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update the cart items in the state
+        setCartItems(data.cart.items);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Failed to remove item from cart:", error);
+    }
+  };
+
+  const handleRemoveItem = (item: CartItem) => {
+    removeItemFromCart(item);
+  };
+
   const handleOrder = async () => {
     if (!selectedItem || !shippingAddress) {
       //console.error("Selected item or shipping address is missing");
@@ -246,7 +276,10 @@ export default function Page() {
                 >
                   Order
                 </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded font-medium w-full">
+                <button
+                  onClick={() => handleRemoveItem(item)}
+                  className="bg-red-500 text-white px-4 py-2 rounded font-medium w-full"
+                >
                   Remove
                 </button>
               </div>

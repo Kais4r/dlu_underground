@@ -128,7 +128,7 @@ export default function Page({
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-4">
           <Image
-            src={mainImage}
+            src={mainImage || "400x400.svg"}
             alt="Main product image"
             className="w-full h-auto rounded-lg"
             width={400}
@@ -138,7 +138,7 @@ export default function Page({
             {product?.images.map((img, index) => (
               <Image
                 key={index}
-                src={img}
+                src={img || "100x100.svg"}
                 alt={`Product thumbnail ${index + 1}`}
                 className="w-20 h-20 rounded-md cursor-pointer"
                 onClick={() => setMainImage(img)}

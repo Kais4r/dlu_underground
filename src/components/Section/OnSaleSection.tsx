@@ -49,10 +49,14 @@ export default function OnSaleSection() {
           <h2 className="text-2xl font-bold">On Sale</h2>
           <Button className="mt-4">View All</Button>
         </div>
-        <div className="flex flex-row gap-4 items-center">
-          {products.slice(0, 4).map((item) => (
-            <ProductCard key={item._id} {...item} />
-          ))}
+        <div className="overflow-x-auto">
+          <div className="flex flex-row gap-4 items-center w-max">
+            {products.map((item) => (
+              <div key={item._id} className="flex-shrink-0 w-1/4">
+                <ProductCard {...item} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
