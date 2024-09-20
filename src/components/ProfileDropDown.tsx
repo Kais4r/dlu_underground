@@ -42,6 +42,14 @@ export default function ProfileDropdown() {
               </li>
               <li>
                 <Link
+                  href="/adminDashboard"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                  Admin Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/pages/myAccount"
                   className="block px-4 py-2 text-sm hover:bg-gray-100"
                 >
