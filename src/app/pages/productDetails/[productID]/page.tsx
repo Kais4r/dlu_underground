@@ -235,44 +235,10 @@ export default function Page({
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
             <TabsContent value="description" className="p-4">
-              <p>
-                Our Ergonomic Office Chair is designed to provide maximum
-                comfort and support during long work hours. The chair features a
-                breathable mesh back that promotes air circulation, keeping you
-                cool throughout the day. The adjustable lumbar support ensures
-                proper spinal alignment, reducing the risk of back pain and
-                discomfort.
-              </p>
-              <p className="mt-4">Key features include:</p>
-              <ul className="list-disc list-inside mt-2">
-                <li>Adjustable height and tilt</li>
-                <li>360-degree swivel</li>
-                <li>Padded armrests</li>
-                <li>Durable nylon base with smooth-rolling casters</li>
-                <li>Weight capacity: 300 lbs</li>
-              </ul>
+              <p>Add later</p>
             </TabsContent>
             <TabsContent value="specifications" className="p-4">
-              <ul className="space-y-2">
-                <li>
-                  <strong>Dimensions:</strong> 26"W x 26"D x 38-42"H
-                </li>
-                <li>
-                  <strong>Weight:</strong> 35 lbs
-                </li>
-                <li>
-                  <strong>Material:</strong> Mesh back, fabric seat, nylon base
-                </li>
-                <li>
-                  <strong>Color options:</strong> Black, Gray, White
-                </li>
-                <li>
-                  <strong>Assembly required:</strong> Yes
-                </li>
-                <li>
-                  <strong>Warranty:</strong> 5-year limited warranty
-                </li>
-              </ul>
+              <p>Add later</p>
             </TabsContent>
             <TabsContent value="reviews" className="p-4">
               <p className="text-muted-foreground">
