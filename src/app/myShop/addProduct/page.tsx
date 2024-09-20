@@ -1,17 +1,17 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../store/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export default function Page() {
   const shop = useSelector((state: RootState) => state.shop);
-  //console.log(shop.shopData?.name);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
+    shippingCost: "", // Added shippingCost to the state
     category: "",
     brand: shop.shopData?.name || "error cant get shop brand name",
     sku: "",
@@ -39,16 +39,14 @@ export default function Page() {
       | ChangeEvent<HTMLTextAreaElement>
       | ChangeEvent<HTMLSelectElement>
   ) => {
-    const target = e.target as
-      | HTMLInputElement
-      | HTMLTextAreaElement
-      | HTMLSelectElement;
+    const target = e.target;
     const { name, value, type } = target;
 
     if (type === "checkbox" || type === "radio") {
+      const checked = (target as HTMLInputElement).checked; // Type assertion
       setFormData((prevState) => ({
         ...prevState,
-        [name]: (target as HTMLInputElement).checked,
+        [name]: checked,
       }));
     } else {
       setFormData((prevState) => ({
@@ -73,7 +71,7 @@ export default function Page() {
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred. Please try again." + error);
+      alert("An error occurred. Please try again. " + error);
     }
   };
 
@@ -136,6 +134,24 @@ export default function Page() {
         </div>
         <div>
           <label
+            htmlFor="shippingCost"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Shipping Cost
+          </label>
+          <input
+            id="shippingCost"
+            name="shippingCost"
+            type="number"
+            value={formData.shippingCost}
+            onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Shipping Cost"
+            required
+          />
+        </div>
+        <div>
+          <label
             htmlFor="category"
             className="block text-sm font-medium text-gray-700"
           >
@@ -162,13 +178,12 @@ export default function Page() {
             id="brand"
             name="brand"
             type="text"
-            value={shop.shopData?.name ?? "Shop name is not available"} // Use the locked value here
-            readOnly // Make the input field read-only
+            value={shop.shopData?.name ?? "Shop name is not available"}
+            readOnly
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-600 cursor-not-allowed focus:outline-none sm:text-sm"
             placeholder="Brand"
           />
         </div>
-
         <div>
           <label
             htmlFor="sku"
@@ -302,7 +317,7 @@ export default function Page() {
             value={formData.color}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Color (comma-separated)"
+            placeholder="Color"
           />
         </div>
         <div>
@@ -319,7 +334,7 @@ export default function Page() {
             value={formData.size}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Size (comma-separated)"
+            placeholder="Size"
           />
         </div>
         <div>
@@ -350,6 +365,7 @@ export default function Page() {
             id="rating"
             name="rating"
             type="number"
+            step="0.1"
             value={formData.rating}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -370,7 +386,7 @@ export default function Page() {
             value={formData.reviews}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Reviews (comma-separated)"
+            placeholder="Reviews"
           />
         </div>
         <div>
@@ -407,7 +423,7 @@ export default function Page() {
             value={formData.discount}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Discount"
+            placeholder="Discount (%)"
           />
         </div>
         <div>
@@ -468,10 +484,9 @@ export default function Page() {
           >
             Shipping Details
           </label>
-          <input
+          <textarea
             id="shippingDetails"
             name="shippingDetails"
-            type="text"
             value={formData.shippingDetails}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
